@@ -48,4 +48,9 @@ class Borrowing extends Model
     {
         return $this->belongsTo(User::class, 'librarian_id');
     }
+
+    public function publisher()
+    {
+        return $this->belongsTo(Publisher::class);
+    }
 }

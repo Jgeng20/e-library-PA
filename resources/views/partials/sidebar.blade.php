@@ -1,7 +1,8 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
-        <img src="{{ $app_logo ? asset('storage/' . $app_logo) : asset('https://placehold.co/400x600') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="{{ $app_logo ? asset('storage/' . $app_logo) : asset('https://placehold.co/400x600') }}"
+            alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">{{ $app_title }}</span>
     </a>
 
@@ -10,7 +11,8 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ asset('AdminLTE-3.2.0/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{ asset('AdminLTE-3.2.0/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
+                    alt="User Image">
             </div>
             <div class="info">
                 <a href="#" class="d-block">{{ Auth::user()->name }}</a>
@@ -23,7 +25,8 @@
                 data-accordion="false">
 
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard') }}"
+                        class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -35,7 +38,8 @@
                 <li class="nav-header">Peran</li>
                 @if (Auth::user()->role === 'admin')
                     <li class="nav-item">
-                        <a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
+                        <a href="{{ route('users.index') }}"
+                            class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-user-friends"></i>
                             <p>
                                 Pengguna
@@ -45,7 +49,8 @@
                 @endif
 
                 <li class="nav-item">
-                    <a href="{{ route('members.index') }}" class="nav-link {{ request()->routeIs('members.*') ? 'active' : '' }}">
+                    <a href="{{ route('members.index') }}"
+                        class="nav-link {{ request()->routeIs('members.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Anggota
@@ -56,31 +61,39 @@
                 {{-- Management --}}
                 <li class="nav-header">Manajemen</li>
                 <li class="nav-item">
-                    <a href="{{ route('books.index') }}" class="nav-link {{ request()->routeIs('books.*') ? 'active' : '' }}">
+                    <a href="{{ route('books.index') }}"
+                        class="nav-link {{ request()->routeIs('books.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
                             Buku
                         </p>
                     </a>
                 </li>
+                @if (Auth::user()->role === 'admin')
+                    <li class="nav-item">
+                        <a href="{{ route('category.index') }}"
+                            class="nav-link {{ request()->routeIs('category.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-list"></i>
+                            <p>
+                                Kategori
+                            </p>
+                        </a>
+                    </li>
+                @endif
+                @if (Auth::user()->role === 'admin')
+                    <li class="nav-item">
+                        <a href="{{ route('publisher.index') }}"
+                            class="nav-link {{ request()->routeIs('publisher.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-print"></i>
+                            <p>
+                                Penerbit
+                            </p>
+                        </a>
+                    </li>
+                @endif
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-list"></i>
-                        <p>
-                            Kategori
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-print"></i>
-                        <p>
-                            Penerbit
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('borrowings.index') }}" class="nav-link {{ request()->routeIs('borrowings.*') ? 'active' : '' }}">
+                    <a href="{{ route('borrowings.index') }}"
+                        class="nav-link {{ request()->routeIs('borrowings.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-file"></i>
                         <p>
                             Penyewaan
@@ -91,19 +104,20 @@
                 {{-- Sample pages --}}
                 <li class="nav-header">Halaman Contoh</li>
                 <li class="nav-item">
-                    <a href="{{ route('samples.datepicker') }}" class="nav-link {{ request()->routeIs('samples.datepicker') ? 'active' : '' }}">
+                    <a href="{{ route('samples.datepicker') }}"
+                        class="nav-link {{ request()->routeIs('samples.datepicker') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-calendar"></i>
                         <p>
                             Date Picker
                         </p>
                     </a>
                 </li>
-                
+
                 {{-- Settings --}}
                 <li class="nav-header">Pengaturan</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-users-cog"></i>
+                    <a href="{{ route('account.index') }}"
+                    class="nav-link {{ request()->routeIs('account.*') ? 'active' : '' }}">                        <i class="nav-icon fas fa-users-cog"></i>
                         <p>
                             Akun
                         </p>
@@ -111,7 +125,8 @@
                 </li>
                 @if (Auth::user()->role === 'admin')
                     <li class="nav-item">
-                        <a href="{{ route('aplication.index') }}" class="nav-link {{ request()->routeIs('aplication.*') ? 'active' : '' }}">
+                        <a href="{{ route('aplication.index') }}"
+                            class="nav-link {{ request()->routeIs('aplication.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-cog"></i>
                             <p>
                                 Aplikasi

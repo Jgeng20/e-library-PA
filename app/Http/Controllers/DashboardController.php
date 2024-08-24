@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Borrowing;
 use App\Models\Book;
+use App\Models\Publisher;
 use App\Models\Member;
 use App\Models\Category;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -254,4 +256,21 @@ class DashboardController extends Controller
 
         return response()->json($books);
     }
+
+    public function getTopBorrowedPublishers()
+{
+    $publishers = DB::table('borrowings')
+        ->join('books', 'borrowings.book_id', '=', 'books.id')
+        ->join('publishers', 'books.publisher_id', '=', 'publishers.id')
+        ->select('publishers.name', DB::raw('count(borrowings.id) as total'))
+        ->groupBy('publishers.name')
+        ->orderBy('total', 'desc')
+        ->take(5) // Top 5 publishers
+        ->get();
+
+    return response()->json([
+        'publishers' => $publishers->pluck('name'),
+        'counts' => $publishers->pluck('total'),
+    ]);
+}
 }

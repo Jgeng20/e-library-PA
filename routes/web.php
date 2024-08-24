@@ -11,6 +11,10 @@ use App\Http\Controllers\{
     MemberController,
     UserController,
     AplicationController,
+    CategoryController,
+    SamplesController,
+    PublisherController,
+    AccountController
 };
 
 /*
@@ -40,6 +44,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/data/books-status-data', [DashboardController::class, 'getBooksStatusData'])->name('dashboard.data.books_statue_data');
         Route::get('/data/books-amount-data', [DashboardController::class, 'getBooksAmountData'])->name('dashboard.data.books_amount_data');
         Route::get('/dashboard/data/top_borrowed_books', [DashboardController::class, 'getTopBorrowedBooks'])->name('dashboard.data.top_borrowed_books');
+        Route::get('/dashboard/data/top_borrowed_publishers', [DashboardController::class, 'getTopBorrowedPublishers'])->name('dashboard.data.top_borrowed_publishers');
 
     });
 
@@ -66,4 +71,14 @@ Route::middleware('auth')->group(function () {
     })->name('samples.datepicker');
 
     Route::resource('aplication', AplicationController::class)->middleware('role:admin');
+
+    Route::prefix('samples')->group(function () {
+        Route::get('datepicker', [SamplesController::class, 'datepicker'])->name('samples.datepicker');
+    });
+
+    Route::resource('category', CategoryController::class)->middleware('role:admin');
+
+    Route::resource('publisher', PublisherController::class)->middleware('role:admin');
+
+    Route::resource('account', AccountController::class);
 });

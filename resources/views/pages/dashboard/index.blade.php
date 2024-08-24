@@ -235,37 +235,29 @@
     </div>
 
     <div class="row">
-        <div class="col-12 col-lg-6">
-            <div class="card">
-                <div class="text-center my-5" id="lineChartLoader">
-                    <i class="fas fa-2x fa-sync-alt fa-spin"></i>
-                </div>
-                <div class="card-body" id="lineChartContainer">
+        @if (Auth::user()->role === 'admin')
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="text-center my-5" id="lineChartLoader">
+                        <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+                    </div>
+                    <div class="card-body" id="lineChartContainer">
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="text-center my-5" id="splineChartLoader">
+                        <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+                    </div>
+                    <div class="card-body" id="splineChartContainer">
+                    </div>
+                </div>
+            </div>
+        @endif
 
         <div class="col-12 col-lg-6">
-            <div class="card">
-                <div class="text-center my-5" id="splineChartLoader">
-                    <i class="fas fa-2x fa-sync-alt fa-spin"></i>
-                </div>
-                <div class="card-body" id="splineChartContainer">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-lg-4">
-            <div class="card">
-                <div class="text-center my-5" id="pieChartLoader1">
-                    <i class="fas fa-2x fa-sync-alt fa-spin"></i>
-                </div>
-                <div class="card-body" id="pieChartContainer1">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-lg-4">
             <div class="card">
                 <div class="text-center my-5" id="barChartLoader">
                     <i class="fas fa-2x fa-sync-alt fa-spin"></i>
@@ -275,7 +267,28 @@
             </div>
         </div>
 
-        <div class="col-12 col-lg-4">
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="text-center my-5" id="columnChartLoader">
+                    <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+                </div>
+                <div class="card-body" id="columnChartContainer">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="text-center my-5" id="pieChartLoader1">
+                    <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+                </div>
+                <div class="card-body" id="pieChartContainer1">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-12 col-lg-6">
             <div class="card">
                 <div class="text-center my-5" id="pieChartLoader2">
                     <i class="fas fa-2x fa-sync-alt fa-spin"></i>
@@ -284,6 +297,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- Modal -->
@@ -395,7 +409,7 @@
         }
         // end script linechart
     </script>
-    
+
     <script>
         // ajax piechart1
         $(document).ready(function() {
@@ -407,7 +421,7 @@
                 success: function(data) {
                     console.log(data);
                     $('#pieChartLoader1').hide();
-                    createPieChart1('pieChartContainer1', 'Books by Category', data);
+                    createPieChart1('pieChartContainer1', 'Kategori Buku', data);
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX Error: ', error);
@@ -464,93 +478,7 @@
     </script>
 
     <script>
-        // ajax piechart1
-        $(document).ready(function() {
-            $('#pieChartLoader1').show();
-            $.ajax({
-                url: "{{ route('dashboard.data.books_by_category') }}",
-                method: 'GET',
-                success: function(data) {
-                    console.log('Data received:', data);
-                    $('#pieChartLoader1').hide();
-                    createPieChart1('pieChartContainer1', 'Books by Category', data);
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX Error: ', error);
-                    $('#pieChartLoader1').hide();
-                }
-            });
-        });
-
-        function createPieChart1(container, title, [{
-                name: 'Fiksi',
-                y: 10
-            },
-            {
-                name: 'Non-Fiksi',
-                y: 20
-            },
-            {
-                name: 'Novel',
-                y: 30
-            }
-        ]);
-        {
-            Highcharts.chart(container, {
-                chart: {
-                    type: 'pie'
-                },
-                title: {
-                    text: title
-                },
-                plotOptions: {
-                    pie: {
-                        innerSize: '50%', // Membuatnya menjadi grafik donat
-                        dataLabels: {
-                            style: {
-                                color: '#ffffff' // Warna label data dalam mode gelap
-                            }
-                        },
-                        point: {
-                            events: {
-                                click: function() {
-                                    $('#modalContent').text('Kategori: ' + this.name + ', Nilai: ' + this.y);
-                                    $('#dataPointModal').modal('show');
-                                }
-                            }
-                        }
-                    }
-                },
-                tooltip: {
-                    formatter: function() {
-                        return 'Kategori: ' + this.point.name + '<br>' +
-                            'Nilai: ' + this.point.y + '<br>' +
-                            Highcharts.numberFormat(this.percentage, 1) + '%</b><br>';
-                    }
-                },
-                series: [{
-                    name: 'Buku',
-                    colorByPoint: true,
-                    data: data
-                }],
-                credits: {
-                    enabled: false
-                },
-                legend: {
-                    enabled: true,
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    itemStyle: {
-                        color: '#333333', // Warna teks legend
-                        fontSize: '14px' // Ukuran font teks legend
-                    }
-                }
-            });
-        }
-    </script>
-
-    <script>
+        // ajax piechart2
         $(document).ready(function() {
             // AJAX call untuk mendapatkan data buku
             $.ajax({
@@ -559,7 +487,7 @@
                 success: function(data) {
                     console.log(data);
                     $('#pieChartLoader2').hide();
-                    createPieChart2('pieChartContainer2', 'Books Status', [{
+                    createPieChart2('pieChartContainer2', 'Status Buku', [{
                             name: 'Available Books',
                             y: data.availableBooks
                         },
@@ -627,6 +555,7 @@
     </script>
 
     <script>
+        // ajax spline chart
         $(document).ready(function() {
             $('#splineChartLoader').show();
 
@@ -655,7 +584,7 @@
                     text: title
                 },
                 xAxis: {
-                    categories: categories // Ini akan diisi dengan nama bulan
+                    categories: categories
                 },
                 yAxis: {
                     title: {
@@ -680,6 +609,7 @@
     </script>
 
     <script>
+        // ajax bar chart
         $.ajax({
             url: "{{ route('dashboard.data.top_borrowed_books') }}",
             method: 'GET',
@@ -721,6 +651,49 @@
                 series: [{
                     name: 'Jumlah Peminjaman',
                     data: data.map(item => item.total)
+                }],
+                credits: {
+                    enabled: false
+                }
+            });
+        }
+    </script>
+
+    <script>
+        // ajax column chart for publishers
+        $.ajax({
+            url: "{{ route('dashboard.data.top_borrowed_publishers') }}",
+            method: 'GET',
+            success: function(data) {
+                console.log(data);
+                $('#columnChartLoader').hide();
+                createColumnChart('columnChartContainer', 'Publisher Terlaris', data
+                    .publishers, data.counts);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error: ', error);
+            }
+        });
+
+        function createColumnChart(container, title, categories, seriesData) {
+            Highcharts.chart(container, {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: title
+                },
+                xAxis: {
+                    categories: categories
+                },
+                yAxis: {
+                    title: {
+                        text: 'Jumlah Peminjaman'
+                    }
+                },
+                series: [{
+                    name: 'Jumlah Peminjaman',
+                    data: seriesData
                 }],
                 credits: {
                     enabled: false

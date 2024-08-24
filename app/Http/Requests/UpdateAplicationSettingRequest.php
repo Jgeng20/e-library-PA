@@ -15,7 +15,7 @@ class UpdateAplicationSettingRequest extends FormRequest
     {
         return [
             'app_title' => 'required|string|max:255',
-            'app_logo' => 'nullable|image|mimes:png|max:2048',
+            'app_logo' => 'nullable|image|mimes:png,jpg|max:2048',
             'app_description' => 'required|string',
             'app_email' => 'required|email',
             'app_phone' => 'required|string|max:15',
@@ -30,7 +30,7 @@ class UpdateAplicationSettingRequest extends FormRequest
         return [
             'app_title' => 'Nama Aplikasi Tidak Boleh Kosong',
             'app_logo.file' => 'Gambar Aplikasi harus berupa berkas.',
-            'app_logo.mimes' => 'Gambar Aplikasi harus berformat PNG.',
+            'app_logo.mimes' => 'Gambar Aplikasi harus berformat PNG / JPG.',
             'app_logo.max' => 'Gambar Aplikasi tidak boleh lebih dari 2MB.',
             'app_description' => 'Deskripsi Aplikasi Perlu Diisi',
             'app_email' => 'Aplikasi Memerlukan Email Resmi',
